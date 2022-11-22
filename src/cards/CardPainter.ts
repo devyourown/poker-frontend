@@ -32,11 +32,15 @@ export class CardPainter {
 
     flipClickedCard(x:number, y:number): void {
         this.cards.forEach((value) => {
-            if (value.getX <= x && x <= value.getX + 100 &&
-                value.getY <= y && y <= value.getY + 130) {
-                    this.flip(value.getImage, value.getX, value.getY);
-                }
+            if (this.isClicked(value, x, y)) {
+                this.flip(value.getImage, value.getX, value.getY);
+            }
         })
+    }
+
+    private isClicked(value: Card, x: number, y: number): boolean {
+        return value.getX <= x && x <= value.getX + 100 &&
+        value.getY <= y && y <= value.getY + 130;
     }
 
     private flip(img: HTMLImageElement, x: number, y: number) {
