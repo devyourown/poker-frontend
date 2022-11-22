@@ -19,12 +19,12 @@ export class CardPainter {
         this.handPosition = new HandPosition(numOfPlayer);
         this.context = context;
         this.backOfCard = backOfCard;
-        this.cards = this.makeCards(numOfPlayer);
+        this.cards = this.makeCards();
     }
 
-    private makeCards(numOfPlayer: number): Card[] {
+    private makeCards(): Card[] {
         const result = [];
-        for (let i=0; i<numOfPlayer*2; i++) {
+        for (let i=0; i<this.numOfPlayer*2; i++) {
             result.push(new Card(this.backOfCard, this.midX, this.midY));
         }
         return result;

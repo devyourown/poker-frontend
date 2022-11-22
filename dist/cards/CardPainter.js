@@ -8,11 +8,11 @@ export class CardPainter {
         this.handPosition = new HandPosition(numOfPlayer);
         this.context = context;
         this.backOfCard = backOfCard;
-        this.cards = this.makeCards(numOfPlayer);
+        this.cards = this.makeCards();
     }
-    makeCards(numOfPlayer) {
+    makeCards() {
         const result = [];
-        for (let i = 0; i < numOfPlayer; i++) {
+        for (let i = 0; i < this.numOfPlayer * 2; i++) {
             result.push(new Card(this.backOfCard, this.midX, this.midY));
         }
         return result;

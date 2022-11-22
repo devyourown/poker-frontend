@@ -49,17 +49,3 @@ export class HandPosition {
         return this.positions[index];
     }
 }
-export class CardPosition {
-    constructor(numOfPlayer, width, height) {
-        this.positions = new Array();
-        for (let i = 0; i < numOfPlayer * 2; i++) {
-            this.positions.push(new Position(width + (i * 50), height));
-        }
-    }
-    getPositionOf(index) {
-        return this.positions[index];
-    }
-    getPositions() {
-        return this.positions;
-    }
-}
