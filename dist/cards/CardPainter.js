@@ -13,17 +13,22 @@ export class CardPainter {
     makeCards() {
         const result = [];
         for (let i = 0; i < this.numOfPlayer * 2; i++) {
-            result.push(new Card(this.backOfCard, this.midX, this.midY));
+            const image = new Image();
+            image.src = "../../assets/back.png";
+            result.push(new Card(image, this.midX, this.midY));
         }
         return result;
     }
     flipClickedCard(x, y) {
         this.cards.forEach((value) => {
-            if (value.getX <= x && x <= value.getX + 100 &&
-                value.getY <= y && y <= value.getY + 130) {
+            if (this.isClicked(value, x, y)) {
                 this.flip(value.getImage, value.getX, value.getY);
             }
         });
+    }
+    isClicked(value, x, y) {
+        return value.getX <= x && x <= value.getX + 100 &&
+            value.getY <= y && y <= value.getY + 130;
     }
     flip(img, x, y) {
         this.context.translate(x + img.width, y);
