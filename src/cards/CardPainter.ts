@@ -1,3 +1,4 @@
+import { CardMaker } from './CardMaker';
 import { Card, Suit } from "./Card.js";
 import { HandPosition, Position } from "./HandPosition.js";
 
@@ -6,7 +7,6 @@ export class CardPainter {
     private handPosition: HandPosition;
     private numOfPlayer: number;
     private context: CanvasRenderingContext2D;
-    private backOfCard: HTMLImageElement;
     private midPosition: Position;
 
     constructor(numOfPlayer: number, midPosition: Position,
@@ -15,15 +15,13 @@ export class CardPainter {
         this.numOfPlayer = numOfPlayer;
         this.handPosition = new HandPosition(numOfPlayer);
         this.context = context;
-        this.backOfCard = new Image();
-        this.backOfCard.src = "../../assets/back.png";
         this.cards = this.makeCards();
     }
 
     private makeCards(): Card[] {
         const result = [];
         for (let i=0; i<this.numOfPlayer*2; i++) {
-            result.push(new Card(this.backOfCard, 
+            result.push(new Card(
                 this.midPosition.getX, this.midPosition.getY,
                 Suit.CLOVER, 13));
         }
@@ -69,7 +67,7 @@ export class CardPainter {
     public drawDeck() {
         this.context?.beginPath();
         for (let i=0; i<10; i++) {
-            this.context?.drawImage(this.backOfCard, 
+            this.context?.drawImage(CardMaker.makeBack(),
                 this.midPosition.getX + (i * 10), 
                 this.midPosition.getY, 100, 130);
         }

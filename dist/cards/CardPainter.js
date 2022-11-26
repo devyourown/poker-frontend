@@ -1,20 +1,18 @@
+import { CardMaker } from './CardMaker';
 import { Card, Suit } from "./Card.js";
 import { HandPosition } from "./HandPosition.js";
 export class CardPainter {
-    constructor(numOfPlayer, midX, midY, context) {
-        this.midX = midX;
-        this.midY = midY;
+    constructor(numOfPlayer, midPosition, context) {
+        this.midPosition = midPosition;
         this.numOfPlayer = numOfPlayer;
         this.handPosition = new HandPosition(numOfPlayer);
         this.context = context;
-        this.backOfCard = new Image();
-        this.backOfCard.src = "../../assets/back.png";
         this.cards = this.makeCards();
     }
     makeCards() {
         const result = [];
         for (let i = 0; i < this.numOfPlayer * 2; i++) {
-            result.push(new Card(this.backOfCard, this.midX, this.midY, Suit.CLOVER, 13));
+            result.push(new Card(this.midPosition.getX, this.midPosition.getY, Suit.CLOVER, 13));
         }
         return result;
     }
@@ -53,7 +51,7 @@ export class CardPainter {
         var _a, _b, _c;
         (_a = this.context) === null || _a === void 0 ? void 0 : _a.beginPath();
         for (let i = 0; i < 10; i++) {
-            (_b = this.context) === null || _b === void 0 ? void 0 : _b.drawImage(this.backOfCard, this.midX + (i * 10), this.midY, 100, 130);
+            (_b = this.context) === null || _b === void 0 ? void 0 : _b.drawImage(CardMaker.makeBack(), this.midPosition.getX + (i * 10), this.midPosition.getY, 100, 130);
         }
         (_c = this.context) === null || _c === void 0 ? void 0 : _c.closePath();
     }

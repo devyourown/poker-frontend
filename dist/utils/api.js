@@ -1,29 +1,45 @@
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 import axios from "../../node_modules/axios/index";
+import { Card, Suit } from "../cards/Card.js";
+import { Methods } from "./Methods.js";
 const API_END_POINT = "localhost:8080";
-export function request(method, path) {
-    return __awaiter(this, void 0, void 0, function* () {
-        let result;
-        try {
-            result = yield axios({
-                method: method,
-                url: API_END_POINT + "/" + path,
-                responseType: 'json',
-            });
-            if (result.status != 200)
-                throw new Error("status is not right");
-        }
-        catch (e) {
-            throw new Error("axios failed");
-        }
-        return result.data;
+function request(method, path) {
+    axios({
+        method: method,
+        url: API_END_POINT + "/" + path,
+        responseType: 'json',
+    }).then(response => {
+        if (response.status !== 200)
+            throw new Error("status is not right");
+        return response.data;
+    }).catch(error => {
+        throw new Error("axios Error: " + error);
     });
+}
+export function requestHands(position) {
+    const result = [];
+    const data = request(Methods.GET, "game/hands");
+    for (const card of data) {
+        result.push(new Card(position.getX, position.getY, getSuit(card.suit), card.value));
+    }
+    return result;
+}
+export function requestHandsTest(position) {
+    const result = [];
+    const data = [{ suit: "clover", value: 13 },
+        { suit: "heart", value: 12 }];
+    for (const card of data) {
+        result.push(new Card(position.getX, position.getY, getSuit(card.suit), card.value));
+    }
+    return result;
+}
+function getSuit(suit) {
+    if (suit === "clover")
+        return Suit.CLOVER;
+    else if (suit === "heart")
+        return Suit.HEART;
+    else if (suit === "diamond")
+        return Suit.DIAMOND;
+    else if (suit === "spade")
+        return Suit.SPADE;
+    throw new Error("None Suit");
 }
