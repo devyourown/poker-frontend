@@ -47,4 +47,4 @@ document.addEventListener('mouseup', (e) => {
 }, false);
 setInterval(() => {
     app.draw();
-}, 20);
+}, 10);

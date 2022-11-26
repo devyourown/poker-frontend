@@ -1,4 +1,3 @@
-import { CardMaker } from './CardMaker';
 import { Card, Suit } from "./Card.js";
 import { HandPosition } from "./HandPosition.js";
 export class CardPainter {
@@ -6,6 +5,8 @@ export class CardPainter {
         this.midPosition = midPosition;
         this.numOfPlayer = numOfPlayer;
         this.handPosition = new HandPosition(numOfPlayer);
+        this.backImage = new Image();
+        this.backImage.src = "../../assets/back.png";
         this.context = context;
         this.cards = this.makeCards();
     }
@@ -51,7 +52,7 @@ export class CardPainter {
         var _a, _b, _c;
         (_a = this.context) === null || _a === void 0 ? void 0 : _a.beginPath();
         for (let i = 0; i < 10; i++) {
-            (_b = this.context) === null || _b === void 0 ? void 0 : _b.drawImage(CardMaker.makeBack(), this.midPosition.getX + (i * 10), this.midPosition.getY, 100, 130);
+            (_b = this.context) === null || _b === void 0 ? void 0 : _b.drawImage(this.backImage, this.midPosition.getX + (i * 10), this.midPosition.getY, 100, 130);
         }
         (_c = this.context) === null || _c === void 0 ? void 0 : _c.closePath();
     }

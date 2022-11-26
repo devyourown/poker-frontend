@@ -1,16 +1,13 @@
-import axios from "../../node_modules/axios/index";
 import { Card, Suit } from "../cards/Card.js";
 import { Methods } from "./Methods.js";
 const API_END_POINT = "localhost:8080";
 function request(method, path) {
-    axios({
-        method: method,
-        url: API_END_POINT + "/" + path,
-        responseType: 'json',
+    fetch(API_END_POINT + "/" + path, {
+        method: method
     }).then(response => {
         if (response.status !== 200)
             throw new Error("status is not right");
-        return response.data;
+        return response.json();
     }).catch(error => {
         throw new Error("axios Error: " + error);
     });

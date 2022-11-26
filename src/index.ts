@@ -36,8 +36,7 @@ class App {
         this.cardPainter.drawDeck();
         this.cardPainter.drawHands();
         this.cardPainter.moveCardToHand();
-        if (this.player.isMyTurn())
-            this.showTextInput();
+        this.showTextInput();
     }
 
     private showTextInput() {
@@ -63,4 +62,4 @@ document.addEventListener('mouseup', (e) => {
 }, false);
 setInterval(() => {
     app.draw();
-}, 20);
+}, 10);
