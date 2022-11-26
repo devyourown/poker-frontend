@@ -1,10 +1,10 @@
 import { Position } from "./HandPosition.js";
 
 export enum Suit {
-    CLOVER,
-    HEART,
-    DIAMOND,
-    SPACE
+    CLOVER = "clover",
+    HEART = "heart",
+    DIAMOND = "diamond",
+    SPADE = "spade",
 }
 
 export class Card {
@@ -20,8 +20,13 @@ export class Card {
         this.position = new Position(midX + 90, midY);
         this.suit = suit;
         this.value = value;
-        this.valueImg = new Image();
-        this.valueImg.src = "../../assets/club12.png";
+        this.valueImg = this.createCardImage(suit, value);
+    }
+
+    private createCardImage(suit: Suit, value: number): HTMLImageElement {
+        const result = new Image();
+        result.src = "../../assets/" + suit + "/" + suit + value + ".svg";
+        return result;
     }
 
     get getPosition() {

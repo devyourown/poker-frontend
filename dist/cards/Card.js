@@ -1,10 +1,10 @@
 import { Position } from "./HandPosition.js";
 export var Suit;
 (function (Suit) {
-    Suit[Suit["CLOVER"] = 0] = "CLOVER";
-    Suit[Suit["HEART"] = 1] = "HEART";
-    Suit[Suit["DIAMOND"] = 2] = "DIAMOND";
-    Suit[Suit["SPACE"] = 3] = "SPACE";
+    Suit["CLOVER"] = "clover";
+    Suit["HEART"] = "heart";
+    Suit["DIAMOND"] = "diamond";
+    Suit["SPADE"] = "spade";
 })(Suit || (Suit = {}));
 export class Card {
     constructor(img, midX, midY, suit, value) {
@@ -12,8 +12,13 @@ export class Card {
         this.position = new Position(midX + 90, midY);
         this.suit = suit;
         this.value = value;
-        this.valueImg = new Image();
-        this.valueImg.src = "../../assets/club12.png";
+        this.valueImg = this.createCardImage(suit, value);
+    }
+    createCardImage(suit, value) {
+        const result = new Image();
+        result.src = "../../assets/" + suit + "/" + suit + value + ".svg";
+        console.log(result.src);
+        return result;
     }
     get getPosition() {
         return this.position;
