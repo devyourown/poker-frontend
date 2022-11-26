@@ -1,4 +1,4 @@
-import { Card } from "./Card.js";
+import { Card, Suit } from "./Card.js";
 import { HandPosition } from "./HandPosition.js";
 export class CardPainter {
     constructor(numOfPlayer, midX, midY, context, backOfCard) {
@@ -13,28 +13,21 @@ export class CardPainter {
     makeCards() {
         const result = [];
         for (let i = 0; i < this.numOfPlayer * 2; i++) {
-            const image = new Image();
-            image.src = "../../assets/back.png";
-            result.push(new Card(image, this.midX, this.midY));
+            result.push(new Card(this.backOfCard, this.midX, this.midY, Suit.CLOVER, 13));
         }
         return result;
     }
     flipClickedCard(x, y) {
         this.cards.forEach((value) => {
             if (this.isClicked(value, x, y)) {
-                this.flip(value.getImage, value.getX, value.getY);
+                value.changeImage();
+                value.moveCardToOpenPosition();
             }
         });
     }
     isClicked(value, x, y) {
-        return value.getX <= x && x <= value.getX + 100 &&
-            value.getY <= y && y <= value.getY + 130;
-    }
-    flip(img, x, y) {
-        this.context.translate(x + img.width, y);
-        this.context.scale(-1, 1);
-        this.context.drawImage(img, 0, 0);
-        this.context.setTransform(1, 0, 0, 1, 0, 0);
+        return value.x <= x && x <= value.x + 100 &&
+            value.y <= y && y <= value.y + 130;
     }
     moveCardToHand() {
         for (let i = 0; i < this.numOfPlayer * 2; i++) {
@@ -50,8 +43,8 @@ export class CardPainter {
         this.cards
             .forEach((value) => {
             var _a;
-            this.context.rect(value.getX, value.getY, 100, 130);
-            (_a = this.context) === null || _a === void 0 ? void 0 : _a.drawImage(value.getImage, value.getX, value.getY, 100, 130);
+            this.context.rect(value.x, value.y, 100, 130);
+            (_a = this.context) === null || _a === void 0 ? void 0 : _a.drawImage(value.image, value.x, value.y, 100, 130);
         });
         (_b = this.context) === null || _b === void 0 ? void 0 : _b.closePath();
     }

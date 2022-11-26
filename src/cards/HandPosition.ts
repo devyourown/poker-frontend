@@ -16,11 +16,15 @@ export class Position {
         return this.y;
     }
 
+    set moveX(num: number) {
+        this.x = this.x + num;
+    }
+
     moveToTarget(target: Position): void {
         if (!this.isInRange(this.x, target.x))
-            this.moveX(target.x);
+            this.moveXAsRange(target.x);
         if (!this.isInRange(this.y, target.y))
-            this.moveY(target.y);
+            this.moveYAsRange(target.y);
     }
 
     isSet(target: Position): boolean {
@@ -37,11 +41,11 @@ export class Position {
         return false;
     }
 
-    private moveX(target: number): void {
+    private moveXAsRange(target: number): void {
         this.x += target > this.x ? this.RANGE : -this.RANGE;
     }
 
-    private moveY(target: number): void {
+    private moveYAsRange(target: number): void {
         this.y += target > this.y ? this.RANGE : -this.RANGE;
     }
 }

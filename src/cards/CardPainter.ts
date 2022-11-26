@@ -1,4 +1,4 @@
-import { Card } from "./Card.js";
+import { Card, Suit } from "./Card.js";
 import { HandPosition, Position } from "./HandPosition.js";
 
 export class CardPainter {
@@ -25,7 +25,8 @@ export class CardPainter {
     private makeCards(): Card[] {
         const result = [];
         for (let i=0; i<this.numOfPlayer*2; i++) {
-            result.push(new Card(this.backOfCard, this.midX, this.midY));
+            result.push(new Card(this.backOfCard, this.midX, this.midY,
+                Suit.CLOVER, 13));
         }
         return result;
     }
@@ -33,21 +34,15 @@ export class CardPainter {
     flipClickedCard(x:number, y:number): void {
         this.cards.forEach((value) => {
             if (this.isClicked(value, x, y)) {
-                this.flip(value.getImage, value.getX, value.getY);
+                value.changeImage();
+                value.moveCardToOpenPosition();
             }
         })
     }
 
     private isClicked(value: Card, x: number, y: number): boolean {
-        return value.getX <= x && x <= value.getX + 100 &&
-        value.getY <= y && y <= value.getY + 130;
-    }
-
-    private flip(img: HTMLImageElement, x: number, y: number) {
-        this.context.translate(x+img.width, y);
-        this.context.scale(-1, 1);
-        this.context.drawImage(img, 0, 0);
-        this.context.setTransform(1, 0, 0, 1, 0, 0);
+        return value.x <= x && x <= value.x + 100 &&
+        value.y <= y && y <= value.y + 130;
     }
 
     moveCardToHand() {
@@ -65,9 +60,9 @@ export class CardPainter {
         this.context?.beginPath();
         this.cards
             .forEach((value) => {
-            this.context.rect(value.getX, value.getY, 100, 130);
-            this.context?.drawImage(value.getImage, value.getX, 
-                value.getY, 100, 130);
+            this.context.rect(value.x, value.y, 100, 130);
+            this.context?.drawImage(value.image, value.x, 
+                value.y, 100, 130);
         });
         this.context?.closePath();
     }
