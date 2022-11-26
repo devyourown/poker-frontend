@@ -14,7 +14,7 @@ export function request(method, path) {
         let result;
         try {
             result = yield axios({
-                method: method.getMethod,
+                method: method,
                 url: API_END_POINT + "/" + path,
                 responseType: 'json',
             });
