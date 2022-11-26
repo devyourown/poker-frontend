@@ -9,7 +9,7 @@ export class Player {
     }
     validateBetSize(betSize) {
         if (betSize > this.money)
-            throw new Error("betSize is too bigger");
+            throw "betSize is too bigger";
     }
     get getHands() {
         return this.hands;

@@ -52,9 +52,33 @@ class App {
             return ;
         this.cardPainter.flipClickedCard(e.clientX, e.clientY);
     }
+
+    submitHandler(e: SubmitEvent) {
+        e.preventDefault();
+        const input = <HTMLInputElement> document.getElementById('bet');
+        try {
+            this.validateBetInput(input.value);
+            const betSize = Number(input.value);
+            this.player.bet(betSize);
+        } catch (e) {
+            window.alert(e);
+            return ;
+        }
+        input.style.display = "none";
+    }
+
+    private validateBetInput(input: string) {
+        if (isNaN(Number(input)))
+            throw "숫자만 입력해 주세요.";
+        console.log(Number(input));
+    }
 }
 
 const app = new App(3);
+
+document.addEventListener('submit', (e) => {
+    app.submitHandler(e);
+});
 
 document.addEventListener('mouseup', (e) => {
     app.mouseUpHandler(e);

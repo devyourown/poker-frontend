@@ -18,7 +18,7 @@ export class Player {
 
     private validateBetSize(betSize: number) {
         if (betSize > this.money)
-            throw new Error("betSize is too bigger");
+            throw "베팅 사이즈가 너무 현재 가진 돈보다 큽니다.";
     }
 
     get getHands() {
