@@ -5,17 +5,21 @@ export var Suit;
     Suit["HEART"] = "heart";
     Suit["DIAMOND"] = "diamond";
     Suit["SPADE"] = "spade";
+    Suit["NONE"] = "none";
 })(Suit || (Suit = {}));
 export class Card {
-    constructor(midX, midY, suit, value) {
+    constructor(togoPosition, midX, midY, suit, value) {
         this.backImg = new Image();
         this.backImg.src = "../../assets/back.png";
-        this.position = new Position(midX + 90, midY);
+        this.togoPosition = togoPosition;
+        this.currentPosition = new Position(midX + 90, midY);
         this.suit = suit;
         this.value = value;
         this.valueImg = this.createCardImage(suit, value);
     }
     createCardImage(suit, value) {
+        if (suit === Suit.NONE)
+            return this.backImg;
         const result = new Image();
         result.src = "../../assets/" + suit + "/" + suit + value + ".svg";
         return result;
@@ -26,16 +30,19 @@ export class Card {
         this.valueImg = temp;
     }
     moveCardToOpenPosition() {
-        this.position.moveX = 80;
+        this.currentPosition.moveX = 80;
     }
-    get getPosition() {
-        return this.position;
+    get getTogoPosition() {
+        return this.togoPosition;
+    }
+    get getCurrentPosition() {
+        return this.currentPosition;
     }
     get x() {
-        return this.position.getX;
+        return this.currentPosition.getX;
     }
     get y() {
-        return this.position.getY;
+        return this.currentPosition.getY;
     }
     get image() {
         return this.backImg;

@@ -1,24 +1,27 @@
 import { Card, Suit } from "./Card.js";
-import { HandPosition } from "./HandPosition.js";
+import { Position } from "./HandPosition.js";
 export class CardPainter {
-    constructor(numOfPlayer, midPosition, context) {
+    constructor(numOfPlayer, midPosition, context, hands) {
         this.midPosition = midPosition;
         this.numOfPlayer = numOfPlayer;
-        this.handPosition = new HandPosition(numOfPlayer);
         this.backImage = new Image();
         this.backImage.src = "../../assets/back.png";
         this.context = context;
-        this.cards = this.makeCards();
+        this.allHands = this.makeOthersCards().concat(hands);
+        this.playerHands = hands;
     }
-    makeCards() {
+    makeOthersCards() {
         const result = [];
-        for (let i = 0; i < this.numOfPlayer * 2; i++) {
-            result.push(new Card(this.midPosition.getX, this.midPosition.getY, Suit.CLOVER, 13));
+        let distance = 0;
+        for (let i = 0; i < (this.numOfPlayer - 1) * 2; i++) {
+            result.push(new Card(new Position(100 + (i * 50) + distance, 100), this.midPosition.getX, this.midPosition.getY, Suit.NONE, 0));
+            if (i % 2 == 1)
+                distance += 150;
         }
         return result;
     }
     flipClickedCard(x, y) {
-        this.cards.forEach((value) => {
+        this.playerHands.forEach((value) => {
             if (this.isClicked(value, x, y)) {
                 value.changeImage();
                 value.moveCardToOpenPosition();
@@ -31,7 +34,7 @@ export class CardPainter {
     }
     moveCardToHand() {
         for (let i = 0; i < this.numOfPlayer * 2; i++) {
-            this.moveCard(this.cards[i].getPosition, this.handPosition.getPositionOf(i));
+            this.moveCard(this.allHands[i].getCurrentPosition, this.allHands[i].getTogoPosition);
         }
     }
     moveCard(cardPosition, handPosition) {
@@ -40,8 +43,7 @@ export class CardPainter {
     drawHands() {
         var _a, _b;
         (_a = this.context) === null || _a === void 0 ? void 0 : _a.beginPath();
-        this.cards
-            .forEach((value) => {
+        this.allHands.forEach((value) => {
             var _a;
             this.context.rect(value.x, value.y, 100, 130);
             (_a = this.context) === null || _a === void 0 ? void 0 : _a.drawImage(value.image, value.x, value.y, 100, 130);
@@ -57,9 +59,9 @@ export class CardPainter {
         (_c = this.context) === null || _c === void 0 ? void 0 : _c.closePath();
     }
     isAllSet() {
-        this.cards.forEach((value, index) => {
-            if (!value.getPosition
-                .isSet(this.handPosition.getPositionOf(index))) {
+        this.allHands.forEach((value) => {
+            if (!value.getCurrentPosition
+                .isSet(value.getTogoPosition)) {
                 return false;
             }
         });

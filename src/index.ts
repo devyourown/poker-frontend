@@ -27,7 +27,7 @@ class App {
 
     private createCardPainter(numOfPlayer: number): CardPainter {
         const result = new CardPainter(numOfPlayer, 
-            this.midPosition, this.context);
+            this.midPosition, this.context, this.player.getHands);
         return result;
     }
     

@@ -11,5 +11,8 @@ export class Player {
         if (betSize > this.money)
             throw new Error("betSize is too bigger");
     }
+    get getHands() {
+        return this.hands;
+    }
 }
 Player.createPosition = 1;

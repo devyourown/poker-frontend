@@ -6,26 +6,31 @@ export enum Suit {
     HEART = "heart",
     DIAMOND = "diamond",
     SPADE = "spade",
+    NONE = "none",
 }
 
 export class Card {
     private backImg: HTMLImageElement;
-    private position: Position;
+    private togoPosition: Position;
+    private currentPosition: Position;
     private suit: Suit;
     private value: number;
     private valueImg: HTMLImageElement;
     
-    constructor(midX: number, midY: number,
+    constructor(togoPosition: Position, midX: number, midY: number,
                 suit: Suit, value: number) {
         this.backImg = new Image();
         this.backImg.src = "../../assets/back.png";
-        this.position = new Position(midX + 90, midY);
+        this.togoPosition = togoPosition;
+        this.currentPosition = new Position(midX + 90, midY);
         this.suit = suit;
         this.value = value;
         this.valueImg = this.createCardImage(suit, value);
     }
 
     private createCardImage(suit: Suit, value: number): HTMLImageElement {
+        if (suit === Suit.NONE)
+            return this.backImg;
         const result = new Image();
         result.src = "../../assets/" + suit + "/" + suit + value + ".svg";
         return result;
@@ -38,19 +43,23 @@ export class Card {
     }
 
     moveCardToOpenPosition() {
-        this.position.moveX = 80;
+        this.currentPosition.moveX = 80;
     }
 
-    get getPosition() {
-        return this.position;
+    get getTogoPosition() {
+        return this.togoPosition;
+    }
+
+    get getCurrentPosition() {
+        return this.currentPosition;
     }
 
     get x() {
-        return this.position.getX;
+        return this.currentPosition.getX;
     }
 
     get y() {
-        return this.position.getY;
+        return this.currentPosition.getY;
     }
 
     get image() {
