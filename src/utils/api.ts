@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "../../node_modules/axios/index";
-import { Methods } from "./ApiMethod";
+import { Methods } from "./Methods";
 
 const API_END_POINT = "localhost:8080"
 

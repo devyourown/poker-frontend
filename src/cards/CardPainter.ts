@@ -11,14 +11,14 @@ export class CardPainter {
     private midY;
 
     constructor(numOfPlayer: number, midX: number, midY: number,
-                context: CanvasRenderingContext2D,
-                backOfCard: HTMLImageElement) {
+                context: CanvasRenderingContext2D) {
         this.midX = midX;
         this.midY = midY;
         this.numOfPlayer = numOfPlayer;
         this.handPosition = new HandPosition(numOfPlayer);
         this.context = context;
-        this.backOfCard = backOfCard;
+        this.backOfCard = new Image();
+        this.backOfCard.src = "../../assets/back.png";
         this.cards = this.makeCards();
     }
 
@@ -67,7 +67,7 @@ export class CardPainter {
         this.context?.closePath();
     }
 
-    drawDeck() {
+    public drawDeck() {
         this.context?.beginPath();
         for (let i=0; i<10; i++) {
             this.context?.drawImage(this.backOfCard, 

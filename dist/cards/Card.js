@@ -17,7 +17,6 @@ export class Card {
     createCardImage(suit, value) {
         const result = new Image();
         result.src = "../../assets/" + suit + "/" + suit + value + ".svg";
-        console.log(result.src);
         return result;
     }
     get getPosition() {

@@ -1,33 +1,59 @@
 import { CardPainter } from './cards/CardPainter.js';
+import { Player } from './player/Player.js';
+
+class App {
+    private canvas: HTMLCanvasElement;
+    private context: CanvasRenderingContext2D;
+    private player: Player;
+    private cardPainter: CardPainter;
+
+    constructor(canvas: HTMLCanvasElement, numOfPlayer: number) {
+        this.canvas = canvas;
+        this.context = <CanvasRenderingContext2D> this.canvas.getContext("2d");
+        this.player = new Player();
+        const midX = (this.canvas.width + 100) / 2;
+        const midY = (this.canvas.height / 2);
+        this.cardPainter = new CardPainter(numOfPlayer, midX, midY, this.context);
+    }
+
+    private createCardPainter(numOfPlayer: number): CardPainter {
+        const midX = (this.canvas.width + 100) / 2;
+        const midY = (this.canvas.height / 2);
+        const result = new CardPainter(numOfPlayer, midX, midY, this.context);
+        return result;
+    }
+    
+    draw() {
+        this.context?.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.cardPainter.drawDeck();
+        this.cardPainter.drawHands();
+        this.cardPainter.moveCardToHand();
+        if (this.player.isMyTurn())
+            this.showTextInput();
+    }
+
+    private showTextInput() {
+        const input = document.getElementById('bet');
+        
+        if (input === null)
+            return ;
+        input.style.display = "block";
+        input?.focus();
+    }
+
+    mouseUpHandler(e: MouseEvent) {
+        if (!this.cardPainter.isAllSet())
+            return ;
+        this.cardPainter.flipClickedCard(e.clientX, e.clientY);
+    }
+}
 
 const canvas = <HTMLCanvasElement> document.getElementById('pokerCanvas');
-const context = <CanvasRenderingContext2D> canvas.getContext("2d");
+const app = new App(canvas, 3);
 
-const club12Image = new Image();
-const backImage = new Image();
-preload();
-const midX = (canvas.width + 100) / 2;
-const midY = (canvas.height / 2);
-const cardPainter = new CardPainter(3, midX, midY, context, backImage);
-
-function preload() {
-    club12Image.src = "../assets/club12.png";
-    backImage.src = "../assets/back.png";
-}
-
-function draw() {
-    context?.clearRect(0, 0, canvas.width, canvas.height);
-    cardPainter.drawDeck();
-    cardPainter.drawHands();
-    cardPainter.moveCardToHand();
-}
-
-document.addEventListener('mouseup', mouseUpHandler, false);
-
-function mouseUpHandler(e: MouseEvent) {
-    if (!cardPainter.isAllSet())
-        return ;
-    cardPainter.flipClickedCard(e.clientX, e.clientY);
-}
-
-setInterval(draw, 10);
+document.addEventListener('mouseup', (e) => {
+    app.mouseUpHandler(e);
+}, false);
+setInterval(() => {
+    app.draw();
+}, 10);

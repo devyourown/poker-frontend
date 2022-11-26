@@ -1,13 +1,14 @@
 import { Card, Suit } from "./Card.js";
 import { HandPosition } from "./HandPosition.js";
 export class CardPainter {
-    constructor(numOfPlayer, midX, midY, context, backOfCard) {
+    constructor(numOfPlayer, midX, midY, context) {
         this.midX = midX;
         this.midY = midY;
         this.numOfPlayer = numOfPlayer;
         this.handPosition = new HandPosition(numOfPlayer);
         this.context = context;
-        this.backOfCard = backOfCard;
+        this.backOfCard = new Image();
+        this.backOfCard.src = "../../assets/back.png";
         this.cards = this.makeCards();
     }
     makeCards() {
