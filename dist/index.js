@@ -1,13 +1,11 @@
 import { CardPainter } from './cards/CardPainter.js';
 import { Player } from './player/Player.js';
 class App {
-    constructor(canvas, numOfPlayer) {
-        this.canvas = canvas;
+    constructor(numOfPlayer) {
+        this.canvas = document.getElementById('pokerCanvas');
         this.context = this.canvas.getContext("2d");
         this.player = new Player();
-        const midX = (this.canvas.width + 100) / 2;
-        const midY = (this.canvas.height / 2);
-        this.cardPainter = new CardPainter(numOfPlayer, midX, midY, this.context);
+        this.cardPainter = this.createCardPainter(numOfPlayer);
     }
     createCardPainter(numOfPlayer) {
         const midX = (this.canvas.width + 100) / 2;
@@ -38,10 +36,10 @@ class App {
     }
 }
 const canvas = document.getElementById('pokerCanvas');
-const app = new App(canvas, 3);
+const app = new App(3);
 document.addEventListener('mouseup', (e) => {
     app.mouseUpHandler(e);
 }, false);
 setInterval(() => {
     app.draw();
-}, 10);
+}, 20);

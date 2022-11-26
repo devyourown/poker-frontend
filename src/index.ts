@@ -1,4 +1,5 @@
 import { CardPainter } from './cards/CardPainter.js';
+import { Position } from './cards/HandPosition.js';
 import { Player } from './player/Player.js';
 
 class App {
@@ -7,19 +8,17 @@ class App {
     private player: Player;
     private cardPainter: CardPainter;
 
-    constructor(canvas: HTMLCanvasElement, numOfPlayer: number) {
-        this.canvas = canvas;
+    constructor(numOfPlayer: number) {
+        this.canvas = <HTMLCanvasElement> document.getElementById('pokerCanvas');
         this.context = <CanvasRenderingContext2D> this.canvas.getContext("2d");
         this.player = new Player();
-        const midX = (this.canvas.width + 100) / 2;
-        const midY = (this.canvas.height / 2);
-        this.cardPainter = new CardPainter(numOfPlayer, midX, midY, this.context);
+        this.cardPainter = this.createCardPainter(numOfPlayer);
     }
 
     private createCardPainter(numOfPlayer: number): CardPainter {
         const midX = (this.canvas.width + 100) / 2;
         const midY = (this.canvas.height / 2);
-        const result = new CardPainter(numOfPlayer, midX, midY, this.context);
+        const result = new CardPainter(numOfPlayer, new Position(midX, midY), this.context);
         return result;
     }
     
@@ -48,12 +47,11 @@ class App {
     }
 }
 
-const canvas = <HTMLCanvasElement> document.getElementById('pokerCanvas');
-const app = new App(canvas, 3);
+const app = new App(3);
 
 document.addEventListener('mouseup', (e) => {
     app.mouseUpHandler(e);
 }, false);
 setInterval(() => {
     app.draw();
-}, 10);
+}, 20);

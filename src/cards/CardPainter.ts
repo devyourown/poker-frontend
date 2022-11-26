@@ -7,13 +7,11 @@ export class CardPainter {
     private numOfPlayer: number;
     private context: CanvasRenderingContext2D;
     private backOfCard: HTMLImageElement;
-    private midX;
-    private midY;
+    private midPosition: Position;
 
-    constructor(numOfPlayer: number, midX: number, midY: number,
+    constructor(numOfPlayer: number, midPosition: Position,
                 context: CanvasRenderingContext2D) {
-        this.midX = midX;
-        this.midY = midY;
+        this.midPosition = midPosition;
         this.numOfPlayer = numOfPlayer;
         this.handPosition = new HandPosition(numOfPlayer);
         this.context = context;
@@ -25,7 +23,8 @@ export class CardPainter {
     private makeCards(): Card[] {
         const result = [];
         for (let i=0; i<this.numOfPlayer*2; i++) {
-            result.push(new Card(this.backOfCard, this.midX, this.midY,
+            result.push(new Card(this.backOfCard, 
+                this.midPosition.getX, this.midPosition.getY,
                 Suit.CLOVER, 13));
         }
         return result;
@@ -71,8 +70,8 @@ export class CardPainter {
         this.context?.beginPath();
         for (let i=0; i<10; i++) {
             this.context?.drawImage(this.backOfCard, 
-                this.midX + (i * 10), 
-                this.midY, 100, 130);
+                this.midPosition.getX + (i * 10), 
+                this.midPosition.getY, 100, 130);
         }
         this.context?.closePath();
     }
