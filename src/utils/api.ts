@@ -1,5 +1,5 @@
 import { Card, Suit } from "../cards/Card.js";
-import { Position } from "../cards/HandPosition.js";
+import { Position } from "../cards/Position.js";
 import { Methods } from "./Methods.js";
 
 const API_END_POINT = "localhost:8080"
@@ -21,24 +21,26 @@ interface CardVO {
     value: number
 }
 
-export function requestHands(position: Position): Card[] {
+export function requestHands(deckPos: Position): Card[] {
     const result: Card[] = [];
     const data: CardVO[] = request(Methods.GET, "game/hands");
     let i = 0;
     for (const card of data) {
-        result.push(new Card(new Position(500+(i*50), 500), position.getX, position.getY, getSuit(card.suit), card.value));
+        result.push(new Card(new Position(500+(i*50), 500), deckPos.getX, deckPos.getY, 
+        getSuit(card.suit), card.value));
         i++;
     }
     return result;
 }
 
-export function requestHandsTest(position: Position): Card[] {
+export function requestHandsTest(deckPos: Position): Card[] {
     const result: Card[] = [];
     const data: CardVO[] = [{suit: "clover", value: 13},
                             {suit: "heart", value: 12}];
     let i = 0;
     for (const card of data) {
-        result.push(new Card(new Position(500+(i*50), 500), position.getX, position.getY, getSuit(card.suit), card.value));
+        result.push(new Card(new Position(500+(i*50), 500), deckPos.getX, deckPos.getY, 
+        getSuit(card.suit), card.value));
         i++;
     }
     return result;

@@ -1,4 +1,4 @@
-import { Position } from "./HandPosition.js";
+import { Position } from "./Position.js";
 export var Suit;
 (function (Suit) {
     Suit["CLOVER"] = "clover";
@@ -38,10 +38,10 @@ export class Card {
     get getCurrentPosition() {
         return this.currentPosition;
     }
-    get x() {
+    get getCurrentX() {
         return this.currentPosition.getX;
     }
-    get y() {
+    get getCurrentY() {
         return this.currentPosition.getY;
     }
     get image() {

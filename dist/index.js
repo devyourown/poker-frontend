@@ -1,22 +1,22 @@
 import { CardPainter } from './cards/CardPainter.js';
-import { Position } from './cards/HandPosition.js';
+import { Position } from './cards/Position.js';
 import { Player } from './player/Player.js';
 import { requestHandsTest } from './utils/api.js';
 class App {
     constructor(numOfPlayer) {
         this.canvas = document.getElementById('pokerCanvas');
         this.context = this.canvas.getContext("2d");
-        this.midPosition = this.createMidPosition();
-        this.player = new Player(requestHandsTest(this.midPosition), 1000);
+        this.deckPosition = this.createDeckPosition();
+        this.player = new Player(requestHandsTest(this.deckPosition), 1000);
         this.cardPainter = this.createCardPainter(numOfPlayer);
     }
-    createMidPosition() {
+    createDeckPosition() {
         const midX = (this.canvas.width + 100) / 2;
         const midY = (this.canvas.height / 2);
         return new Position(midX, midY);
     }
     createCardPainter(numOfPlayer) {
-        const result = new CardPainter(numOfPlayer, this.midPosition, this.context, this.player.getHands);
+        const result = new CardPainter(numOfPlayer, this.deckPosition, this.context, this.player.getHands);
         return result;
     }
     draw() {

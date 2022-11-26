@@ -1,51 +1,40 @@
 export class Position {
-    private x: number;
-    private y: number;
-    private RANGE = 4;
-
-    constructor(x: number, y: number) {
+    constructor(x, y) {
+        this.RANGE = 4;
         this.x = x;
         this.y = y;
     }
-    
-    get getX(): number {
+    get getX() {
         return this.x;
     }
-    
-    get getY(): number {
+    get getY() {
         return this.y;
     }
-
-    set moveX(num: number) {
+    set moveX(num) {
         this.x = this.x + num;
     }
-
-    moveToTarget(target: Position): void {
+    moveToTarget(target) {
         if (!this.isInRange(this.x, target.x))
             this.moveXAsRange(target.x);
         if (!this.isInRange(this.y, target.y))
             this.moveYAsRange(target.y);
     }
-
-    isSet(target: Position): boolean {
+    isSet(target) {
         if (!this.isInRange(this.x, target.x))
             return false;
         if (!this.isInRange(this.y, target.y))
             return false;
         return true;
     }
-
-    private isInRange(thisOne: number, target: number): boolean {
+    isInRange(thisOne, target) {
         if (Math.abs(thisOne - target) < this.RANGE)
             return true;
         return false;
     }
-
-    private moveXAsRange(target: number): void {
+    moveXAsRange(target) {
         this.x += target > this.x ? this.RANGE : -this.RANGE;
     }
-
-    private moveYAsRange(target: number): void {
+    moveYAsRange(target) {
         this.y += target > this.y ? this.RANGE : -this.RANGE;
     }
 }

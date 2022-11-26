@@ -1,5 +1,4 @@
-import { CardMaker } from './CardMaker.js';
-import { Position } from "./HandPosition.js";
+import { Position } from "./Position.js";
 
 export enum Suit {
     CLOVER = "clover",
@@ -54,11 +53,11 @@ export class Card {
         return this.currentPosition;
     }
 
-    get x() {
+    get getCurrentX() {
         return this.currentPosition.getX;
     }
 
-    get y() {
+    get getCurrentY() {
         return this.currentPosition.getY;
     }
 

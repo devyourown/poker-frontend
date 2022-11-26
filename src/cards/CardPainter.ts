@@ -1,4 +1,3 @@
-import { CardMaker } from './CardMaker.js';
 import { Card, Suit } from "./Card.js";
 import { Position } from "./Position.js"
 
@@ -6,13 +5,13 @@ export class CardPainter {
     private allHands: Card[];
     private numOfPlayer: number;
     private context: CanvasRenderingContext2D;
-    private midPosition: Position;
+    private deckPosition: Position;
     private backImage: HTMLImageElement;
     private playerHands: Card[];
 
-    constructor(numOfPlayer: number, midPosition: Position,
+    constructor(numOfPlayer: number, deckPos: Position,
                 context: CanvasRenderingContext2D, hands: Card[]) {
-        this.midPosition = midPosition;
+        this.deckPosition = deckPos;
         this.numOfPlayer = numOfPlayer;
         this.backImage = new Image();
         this.backImage.src = "../../assets/back.png";
@@ -27,7 +26,7 @@ export class CardPainter {
         for (let i=0; i<(this.numOfPlayer-1)*2; i++) {
             result.push(new Card(
                 new Position(100+(i*50)+distance, 100),
-                this.midPosition.getX, this.midPosition.getY,
+                this.deckPosition.getX, this.deckPosition.getY,
                 Suit.NONE, 0));
             if (i % 2 == 1)
                 distance += 150;
@@ -45,15 +44,15 @@ export class CardPainter {
     }
 
     private isClicked(value: Card, x: number, y: number): boolean {
-        return value.x <= x && x <= value.x + 100 &&
-        value.y <= y && y <= value.y + 130;
+        return value.getCurrentX <= x && x <= value.getCurrentX + 100 &&
+        value.getCurrentY <= y && y <= value.getCurrentY + 130;
     }
 
     moveCardToHand() {
-        for (let i=0; i<this.numOfPlayer*2; i++) {
-            this.moveCard(this.allHands[i].getCurrentPosition,
-                        this.allHands[i].getTogoPosition);
-        }
+        this.allHands.forEach((value) => {
+            this.moveCard(value.getCurrentPosition,
+                value.getTogoPosition);
+        });
     }
 
     private moveCard(cardPosition: Position, handPosition: Position) {
@@ -63,9 +62,9 @@ export class CardPainter {
     drawHands() {
         this.context?.beginPath();
         this.allHands.forEach((value) => {
-            this.context.rect(value.x, value.y, 100, 130);
-            this.context?.drawImage(value.image, value.x, 
-                value.y, 100, 130);
+            this.context.rect(value.getCurrentX, value.getCurrentY, 100, 130);
+            this.context?.drawImage(value.image, value.getCurrentX, 
+                value.getCurrentY, 100, 130);
         });
         this.context?.closePath();
     }
@@ -74,8 +73,8 @@ export class CardPainter {
         this.context?.beginPath();
         for (let i=0; i<10; i++) {
             this.context?.drawImage(this.backImage,
-                this.midPosition.getX + (i * 10), 
-                this.midPosition.getY, 100, 130);
+                this.deckPosition.getX + (i * 10), 
+                this.deckPosition.getY, 100, 130);
         }
         this.context?.closePath();
     }

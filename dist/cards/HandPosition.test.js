@@ -1,4 +1,4 @@
-import { Position } from "./HandPosition";
+import { Position } from "./Position";
 describe("HandPosition test", () => {
     it("test IsSetFromLess", () => {
         const position = new Position(2, 3);
