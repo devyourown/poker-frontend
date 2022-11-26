@@ -1,6 +1,6 @@
 import { CardMaker } from './CardMaker.js';
 import { Card, Suit } from "./Card.js";
-import { HandPosition, Position } from "./HandPosition.js";
+import { Position } from "./Position.js"
 
 export class CardPainter {
     private allHands: Card[];
