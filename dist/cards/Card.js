@@ -1,4 +1,3 @@
-import { CardMaker } from './CardMaker.js';
 import { Position } from "./HandPosition.js";
 export var Suit;
 (function (Suit) {
@@ -9,7 +8,8 @@ export var Suit;
 })(Suit || (Suit = {}));
 export class Card {
     constructor(midX, midY, suit, value) {
-        this.img = CardMaker.makeBack();
+        this.backImg = new Image();
+        this.backImg.src = "../../assets/back.png";
         this.position = new Position(midX + 90, midY);
         this.suit = suit;
         this.value = value;
@@ -21,8 +21,8 @@ export class Card {
         return result;
     }
     changeImage() {
-        const temp = this.img;
-        this.img = this.valueImage;
+        const temp = this.backImg;
+        this.backImg = this.valueImage;
         this.valueImg = temp;
     }
     moveCardToOpenPosition() {
@@ -38,7 +38,7 @@ export class Card {
         return this.position.getY;
     }
     get image() {
-        return this.img;
+        return this.backImg;
     }
     get valueImage() {
         return this.valueImg;

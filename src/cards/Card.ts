@@ -9,7 +9,7 @@ export enum Suit {
 }
 
 export class Card {
-    private img: HTMLImageElement;
+    private backImg: HTMLImageElement;
     private position: Position;
     private suit: Suit;
     private value: number;
@@ -17,7 +17,8 @@ export class Card {
     
     constructor(midX: number, midY: number,
                 suit: Suit, value: number) {
-        this.img = CardMaker.makeBack();
+        this.backImg = new Image();
+        this.backImg.src = "../../assets/back.png";
         this.position = new Position(midX + 90, midY);
         this.suit = suit;
         this.value = value;
@@ -31,8 +32,8 @@ export class Card {
     }
 
     changeImage() {
-        const temp = this.img;
-        this.img = this.valueImage;
+        const temp = this.backImg;
+        this.backImg = this.valueImage;
         this.valueImg = temp;
     }
 
@@ -53,7 +54,7 @@ export class Card {
     }
 
     get image() {
-        return this.img;
+        return this.backImg;
     }
 
     get valueImage() {

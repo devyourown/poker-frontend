@@ -25,8 +25,7 @@ class App {
         this.cardPainter.drawDeck();
         this.cardPainter.drawHands();
         this.cardPainter.moveCardToHand();
-        if (this.player.isMyTurn())
-            this.showTextInput();
+        this.showTextInput();
     }
     showTextInput() {
         const input = document.getElementById('bet');
